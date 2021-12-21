@@ -15,7 +15,7 @@ def released(request):
     paid = request.GET.get('paid',False)
     released=Released.objects.all()
     if isProvider(request):
-        released = released.filter(created_by=request.user)
+        released = released.filter(company_id=request.user.company_id)
 
     if startDate and endDate:
         released = released.filter(created_at__date__range=(startDate, endDate))
@@ -43,6 +43,7 @@ def create(request):
         relea.scan = request.FILES.get('scan')
         relea.note = request.POST.get('note')
         relea.created_by = request.user
+        relea.company_id = request.user.company_id
         relea.save()
         messages.success(request,'Released Created Successfully.')
         return redirect('/released') 

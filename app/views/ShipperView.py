@@ -17,7 +17,7 @@ def shipper(request):
     paid = request.GET.get('paid',False)
     shipper=Shipper_Exports.objects.all()
     if isProvider(request):
-        shipper = shipper.filter(created_by = request.user) 
+        shipper = shipper.filter(company_id = request.user.company_id) 
 
     if startDate and endDate:
         shipper = shipper.filter(created_at__date__range=(startDate, endDate))
@@ -38,6 +38,7 @@ def create(request):
         print(shipperform)
         if shipperform.is_valid():
             shipperform.instance.created_by = request.user
+            shipperform.instance.company_id = request.user.company_id
             if shipperform.save():
                 messages.success(request,'Shipper_Exports Added Successfully.')
                 return redirect('/shipper')

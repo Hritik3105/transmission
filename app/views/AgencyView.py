@@ -12,6 +12,7 @@ def create(request):
         agencyForm = AgencyCreateForm(request.POST)
         if agencyForm.is_valid():
             agencyForm.instance.created_by = request.user
+            agencyForm.instance.company_id = request.user.company_id
             if agencyForm.save():
                 messages.success(request,'Agencies Added Successfully.')
                 return redirect('/agencies')
@@ -28,7 +29,7 @@ def agencies(request):
     endDate = request.GET.get('end_date',False)
     agency=Agencies.objects.all()
     if isProvider(request):
-        agency=agency.filter(created_by=request.user)
+        agency=agency.filter(company_id=request.user.company_id)
 
 
     if startDate and endDate:

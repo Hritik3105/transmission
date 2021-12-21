@@ -14,7 +14,7 @@ def insurance(request):
     paid = request.GET.get('paid',False)
     insurance=Insurance.objects.all()
     if isProvider(request):
-        insurance=insurance.filter(created_by=request.user)
+        insurance=insurance.filter(company_id=request.user.company_id)
 
     if startDate and endDate:
         insurance = insurance.filter(created_at__date__range=(startDate, endDate))
@@ -47,6 +47,8 @@ def create(request):
         insurance.year = request.POST.get('ins_year')
         insurance.note = request.POST.get('ins_notes')
         insurance.created_by=request.user
+        insurance.company_id = request.user.company_id
+        print(insurance.company_id)
         insurance.save()
         messages.success(request,'Insurance Added Successfully.')
         return redirect('/insurance')

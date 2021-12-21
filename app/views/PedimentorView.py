@@ -14,7 +14,7 @@ def index(request):
     endDate = request.GET.get('end_date',False)
     pedimentor=Pedimentos.objects.all()
     if isProvider(request):
-        pedimentor = pedimentor.filter(created_by = request.user)
+        pedimentor = pedimentor.filter(company_id = request.user.company_id)
 
     if startDate and endDate:
         pedimentor = pedimentor.filter(created_at__date__range=(startDate, endDate))
@@ -49,6 +49,7 @@ def create(request):
         pedi.lock8 = request.POST.get('lock8')
         pedi.supplier = request.POST.get('supplier')
         pedi.created_by = request.user
+        pedi.company_id = request.user.company_id
         pedi.save()
         files = request.FILES.getlist('file',False)
         if files:

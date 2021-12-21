@@ -16,7 +16,7 @@ def provider(request):
     endDate = request.GET.get('end_date',False)
     provider = Provider.objects.all()
     if isProvider(request):
-        provider = provider.filter(created_by = request.user)
+        provider = provider.filter(company_id = request.user.company_id)
 
 
     if startDate and endDate:
@@ -33,6 +33,7 @@ def create(request):
         providerform = ProviderCreateForm(request.POST)
         if providerform.is_valid():
             providerform.instance.created_by = request.user
+            providerform.instance.company_id = request.user.company_id
             if providerform.save():
                 messages.success(request,'Provider Added Successfully.')
                 return redirect('/provider')

@@ -98,7 +98,7 @@ def update(request,id):
 def delete(request,id):
     employee = User.objects.get(pk=id)
     employee.delete()
-    return redirect('/account')
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 # @login_required

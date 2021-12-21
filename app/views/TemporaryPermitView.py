@@ -15,7 +15,7 @@ def index(request):
     paid = request.GET.get('paid',False)
     temp_permits=Temporary_Permits.objects.all()
     if isProvider(request):
-        temp_permits = temp_permits.filter(created_by=request.user)
+        temp_permits = temp_permits.filter(company_id=request.user.company_id)
 
     if startDate and endDate:
         temp_permits = temp_permits.filter(created_at__date__range=(startDate, endDate))
@@ -41,6 +41,7 @@ def create(request):
         permits.permit_year = request.POST.get('permit_year')
         permits.permit_note = request.POST.get('permit_note')
         permits.created_by = request.user
+        permits.company_id = request.user.company_id
         permits.save()
         messages.success(request,'Temporary_permits Added Successfully.')
         return redirect('/temp_permits')

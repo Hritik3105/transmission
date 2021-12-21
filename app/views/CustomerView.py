@@ -13,6 +13,7 @@ def create(request):
         customerform = CustomerCreateForm(request.POST,request.FILES)
         if customerform.is_valid():
             customerform.instance.created_by = request.user
+            customerform.instance.company_id = request.user.company_id
             if customerform.save():
                 messages.success(request,'Customer Added Successfully.')
                 return redirect('/customer')
@@ -29,7 +30,7 @@ def customer(request):
     endDate = request.GET.get('end_date',False)
     customer=Customer.objects.all()
     if isProvider(request):
-        customer=customer.filter(created_by=request.user)
+        customer=customer.filter(company_id=request.user.company_id)
         print(customer.query)
 
     if startDate and endDate:

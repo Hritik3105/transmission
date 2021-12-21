@@ -51,7 +51,7 @@ def delete(request,id):
 
 @login_required
 def updatecheck(request,id):
-	a=userPermission.objects.get(company=id)
+	a=userPermission.objects.get(company_id=id)
 	if request.method == 'POST':
 		a.shipper_Exports = request.POST.get('shipper_Exports',False)
 		a.pedimentos = request.POST.get('pedimentos',False)
@@ -91,7 +91,7 @@ def account(request,id):
         inven.company_id = id
         inven.user_type=3
         inven.save()
-        messages.success(request,'Account Added Successfully.')
+        messages.success(request,'Member Added Successfully.')
         return redirect('company_view',id=id)
     return render(request,"company/company_account.html",{'pedimentos':user})
     

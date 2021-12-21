@@ -67,6 +67,7 @@ class Customer(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	updated_at =  models.DateTimeField(auto_now=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 
 	
 	
@@ -85,9 +86,11 @@ class Agencies(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	updated_at =  models.DateTimeField(auto_now=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 
 
 class Pedimentos(models.Model):
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 	refrence_id 	= models.IntegerField(max_length=11,default="")
 	pedimento_no 	= models.IntegerField()
@@ -145,6 +148,7 @@ class Shipper_Exports(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True)
 	updated_at =  models.DateTimeField(auto_now=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 
 class Insurance(models.Model):
 		INACTIVE = 0
@@ -153,6 +157,7 @@ class Insurance(models.Model):
 		    (INACTIVE, _('Inactive')),
 		    (ACTIVE, _('Active')),
 		)
+		company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 		created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 		Type =    models.CharField(max_length=255,default="")
 		insurer = models.CharField(max_length=255,default="")
@@ -175,6 +180,7 @@ class Temporary_Permits(models.Model):
 		    (INACTIVE, _('Inactive')),
 		    (ACTIVE, _('Active')),
 		)
+		company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 		created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 		permit_date  	= models.DateField()
 		permit_name 	= models.CharField(max_length=255,default="")
@@ -190,6 +196,7 @@ class Temporary_Permits(models.Model):
 
 
 class Released(models.Model):
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 	date  =  models.DateField()
 	file  =  models.CharField(max_length=255,default="")
@@ -205,6 +212,7 @@ class Released(models.Model):
 	updated_at =  models.DateTimeField(auto_now=True)
 
 class Provider(models.Model):
+	company = models.ForeignKey(Company, on_delete=models.CASCADE,null=True)
 	created_by = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 	name = models.CharField(max_length=255,default="")
 	owner = models.CharField(max_length=255,default="")
